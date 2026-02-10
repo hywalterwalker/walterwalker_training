@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walter Walker Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background: #0F172A;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Ambient glow */
+        .glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -100px;
+            background: #FF7A00;
+        }
+
+        .glow-2 {
+            bottom: -200px;
+            right: -100px;
+            background: #3B82F6;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 520px;
+            width: 100%;
+        }
+
+        /* Logo */
+        .logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #FF7A00, #E06B00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 20px 40px rgba(255, 122, 0, 0.25);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo span {
+            font-size: 2.2rem;
+            font-weight: 900;
+            font-style: italic;
+            color: #fff;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        h1 .accent {
+            background: linear-gradient(135deg, #FF7A00, #FF9A40);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 36px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #FF7A00, #E06B00);
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(255, 122, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 122, 0, 0.45);
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .cta-btn .emoji {
+            font-size: 1.4rem;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 1.5rem;
+            z-index: 1;
+        }
+
+        .footer p {
+            font-size: 0.7rem;
+            color: #334155;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="container">
+        <div class="logo"><span>H</span></div>
+        <h1>Heal<span class="accent">sy</span></h1>
+        <p class="subtitle">Walter Walker · Training Portal</p>
+
+        <a href="./healsy-architecture-report.html" class="cta-btn">
+            <span class="emoji">🧧</span>
+            설날 프로모션 매뉴얼
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 Healsy · Walter Walker</p>
+    </div>
+</body>
+
+</html>
