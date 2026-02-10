@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healsy 프로젝트 총괄 보고서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', '"Noto Sans KR"', 'sans-serif'] },
+                    colors: { brand: { orange: '#FF7A00', dark: '#0F172A', gray: '#1E293B' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            /* ─── Light Background for Print ─── */
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                background: #FFFFFF !important;
+                color: #1a1a1a !important;
+            }
+
+            /* Override Tailwind dark classes */
+            .bg-brand-dark {
+                background: #FFFFFF !important;
+            }
+
+            .bg-gray-900,
+            .bg-slate-900 {
+                background: #FFFFFF !important;
+            }
+
+            .bg-gray-800,
+            .bg-slate-800 {
+                background: #f8f9fa !important;
+            }
+
+            .text-gray-300,
+            .text-gray-400,
+            .text-gray-500 {
+                color: #333333 !important;
+            }
+
+            .text-white {
+                color: #111111 !important;
+            }
+
+            .text-orange-400,
+            .text-orange-500 {
+                color: #D46200 !important;
+            }
+
+            .text-blue-400 {
+                color: #2563EB !important;
+            }
+
+            .text-green-400 {
+                color: #059669 !important;
+            }
+
+            .text-purple-400 {
+                color: #7C3AED !important;
+            }
+
+            .text-red-400 {
+                color: #DC2626 !important;
+            }
+
+            .text-yellow-400 {
+                color: #B45309 !important;
+            }
+
+            /* Section Cards → Light */
+            .section-card {
+                background: #FFFFFF !important;
+                border: 1px solid #e0e0e0 !important;
+                box-shadow: none !important;
+            }
+
+            /* Glass Cards → Light */
+            .glass {
+                background: #f8f9fa !important;
+                backdrop-filter: none !important;
+                border: 1px solid #dee2e6 !important;
+            }
+
+            /* Stat Cards → Light accent */
+            .stat-card {
+                background: #FFF7ED !important;
+                border: 1px solid #FDBA74 !important;
+            }
+
+            /* Table styling */
+            .table-styled th {
+                background: #FFF7ED !important;
+                color: #C2410C !important;
+                border-bottom: 2px solid #FB923C !important;
+            }
+
+            .table-styled td {
+                border-bottom: 1px solid #e5e7eb !important;
+                color: #333333 !important;
+            }
+
+            .table-styled tr:hover td {
+                background: transparent !important;
+            }
+
+            /* Gradient text → solid for print */
+            .gradient-text {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: #C2410C !important;
+                color: #C2410C !important;
+            }
+
+            /* Badges → higher contrast */
+            .badge-aws {
+                background: #FFF7ED !important;
+                color: #C2410C !important;
+                border: 1px solid #FB923C !important;
+            }
+
+            .badge-gcp {
+                background: #EFF6FF !important;
+                color: #1D4ED8 !important;
+                border: 1px solid #93C5FD !important;
+            }
+
+            .badge-n8n {
+                background: #FFF1F2 !important;
+                color: #BE123C !important;
+                border: 1px solid #FDA4AF !important;
+            }
+
+            .badge-kakao {
+                background: #FEFCE8 !important;
+                color: #854D0E !important;
+                border: 1px solid #FDE047 !important;
+            }
+
+            /* Cover page */
+            section[id="cover"] {
+                background: #FFFFFF !important;
+            }
+
+            section[id="cover"] h1,
+            section[id="cover"] h2 {
+                color: #C2410C !important;
+                -webkit-text-fill-color: #C2410C !important;
+            }
+
+            section[id="cover"] p,
+            section[id="cover"] span {
+                color: #555555 !important;
+            }
+
+            /* Cover gradient backgrounds */
+            .bg-gradient-to-b,
+            .bg-gradient-to-r,
+            .bg-gradient-to-br,
+            [class*="from-brand"],
+            [class*="from-gray"],
+            [class*="from-slate"] {
+                background: transparent !important;
+            }
+
+            /* All section headings */
+            h2,
+            h3,
+            h4 {
+                color: #111111 !important;
+            }
+
+            h2 span {
+                color: #C2410C !important;
+                -webkit-text-fill-color: #C2410C !important;
+            }
+
+            /* Inline dark backgrounds in sections */
+            [style*="background: rgba("],
+            [style*="background:rgba("],
+            [style*="background: linear-gradient"],
+            [style*="background:linear-gradient"] {
+                background: #f3f4f6 !important;
+                border: 1px solid #d1d5db !important;
+            }
+
+            /* Inline text colors */
+            [style*="color: #fff"],
+            [style*="color:#fff"],
+            [style*="color: white"],
+            [style*="color:white"] {
+                color: #111111 !important;
+            }
+
+            [style*="color: #9CA3AF"],
+            [style*="color: #6B7280"],
+            [style*="color: #94A3B8"] {
+                color: #555555 !important;
+            }
+
+            /* Promo event banner */
+            [style*="background: linear-gradient(135deg, #0F172A"] {
+                background: #FFF7ED !important;
+                border: 2px solid #FB923C !important;
+            }
+
+            /* Promo route cards */
+            [style*="border-left: 4px solid"] {
+                background: #FFFFFF !important;
+                border: 1px solid #d1d5db !important;
+            }
+
+            /* Callout boxes (red/orange/green borders) */
+            [style*="border: 2px solid #EF4444"],
+            [style*="border: 2px solid #ef4444"] {
+                background: #FEF2F2 !important;
+                border: 2px solid #EF4444 !important;
+            }
+
+            [style*="border: 2px solid #F59E0B"],
+            [style*="border: 2px solid #f59e0b"] {
+                background: #FFFBEB !important;
+                border: 2px solid #F59E0B !important;
+            }
+
+            [style*="border: 1px solid #10B981"],
+            [style*="border: 1px solid #059669"] {
+                background: #ECFDF5 !important;
+                border: 1px solid #10B981 !important;
+            }
+
+            /* Staff Manual step badges */
+            [style*="background: #FF7A00"],
+            [style*="background:#FF7A00"] {
+                background: #FB923C !important;
+                color: white !important;
+            }
+
+            /* Mermaid diagrams */
+            .mermaid svg {
+                background: #FFFFFF !important;
+            }
+
+            .mermaid [fill="#0F172A"],
+            .mermaid [fill="#1E293B"],
+            .mermaid [fill="#0f172a"],
+            .mermaid [fill="#1e293b"] {
+                fill: #f3f4f6 !important;
+            }
+
+            .mermaid text {
+                fill: #333333 !important;
+            }
+
+            .mermaid .edgeLabel {
+                background-color: #FFFFFF !important;
+                color: #333333 !important;
+            }
+
+            .mermaid line,
+            .mermaid path.flowchart-link {
+                stroke: #9CA3AF !important;
+            }
+
+            /* Footer */
+            footer,
+            [class*="border-t"] {
+                border-color: #e5e7eb !important;
+            }
+
+            footer p,
+            footer span {
+                color: #9CA3AF !important;
+            }
+
+            /* Links → readable in print */
+            a {
+                color: #2563EB !important;
+                text-decoration: underline !important;
+            }
+
+            /* Scale for A4 */
+            body {
+                font-size: 11pt !important;
+            }
+
+            /* Rounded corners → subtle in print */
+            .rounded-3xl {
+                border-radius: 12px !important;
+            }
+
+            .rounded-2xl {
+                border-radius: 8px !important;
+            }
+
+            /* Shadow removal */
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            /* Bold text readability */
+            .font-bold,
+            .font-extrabold,
+            .font-black {
+                color: #111111 !important;
+            }
+
+            /* Code blocks */
+            code,
+            pre {
+                background: #f3f4f6 !important;
+                color: #1a1a1a !important;
+                border: 1px solid #d1d5db !important;
+            }
+
+            /* Checklist items */
+            [style*="opacity: 0.7"] {
+                opacity: 1 !important;
+            }
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FF7A00, #FF9A40);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .section-card {
+            background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 122, 0, 0.08), rgba(255, 122, 0, 0.02));
+            border: 1px solid rgba(255, 122, 0, 0.15);
+        }
+
+        .table-styled th {
+            background: rgba(255, 122, 0, 0.1);
+            color: #FF7A00;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .table-styled td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+
+        .table-styled tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-aws {
+            background: rgba(255, 153, 0, 0.15);
+            color: #FF9900;
+        }
+
+        .badge-gcp {
+            background: rgba(66, 133, 244, 0.15);
+            color: #4285F4;
+        }
+
+        .badge-n8n {
+            background: rgba(234, 75, 113, 0.15);
+            color: #EA4B71;
+        }
+
+        .badge-kakao {
+            background: rgba(254, 229, 0, 0.15);
+            color: #B8A600;
+        }
+
+        .toc-link {
+            transition: all 0.2s;
+        }
+
+        .toc-link:hover {
+            color: #FF7A00;
+            padding-left: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-brand-dark text-gray-300 min-h-screen">
+
+    <!-- ===== COVER ===== -->
+    <div class="min-h-screen flex flex-col items-center justify-center text-center px-8 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10"
+            style="background: radial-gradient(ellipse at 50% 30%, rgba(255,122,0,0.4), transparent 70%)"></div>
+        <div class="relative z-10">
+            <div
+                class="w-20 h-20 rounded-3xl bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center shadow-2xl shadow-orange-500/30 mx-auto mb-8">
+                <span class="text-white font-black text-4xl italic">H</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
+                Heal<span class="gradient-text">sy</span>
+            </h1>
+            <p class="text-lg text-gray-400 mb-2 font-medium">프로젝트 총괄 보고서</p>
+            <p class="text-sm text-gray-600 mb-12">Project Master Report · System Architecture + Promotion + Staff
+                Manual</p>
+            <div class="flex items-center justify-center gap-6 text-xs text-gray-500">
+                <span>Version 4.0</span>
+                <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                <span>2026년 2월</span>
+                <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                <span>Walter Walker</span>
+            </div>
+            <div class="mt-16 animate-bounce text-gray-600 no-print">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" class="mx-auto">
+                    <path d="M12 5v14" />
+                    <path d="m19 12-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TABLE OF CONTENTS ===== -->
+    <div class="max-w-4xl mx-auto px-8 py-16">
+        <div class="section-card rounded-3xl p-10">
+            <h2 class="text-2xl font-black text-white mb-8 flex items-center gap-3">
+                <span
+                    class="w-8 h-8 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange text-sm font-bold">☰</span>
+                목차
+            </h2>
+            <nav class="space-y-3 text-sm">
+                <p class="text-xs text-gray-600 uppercase tracking-wider font-bold mb-2">🧧 설날 프로모션</p>
+                <a href="#promo-plan" class="toc-link block text-gray-400 hover:text-brand-orange">1. 설날 프로모션 계획</a>
+                <a href="#master-manual" class="toc-link block text-gray-400 hover:text-brand-orange">2. 마스터(스태프)
+                    매뉴얼</a>
+                <div class="border-t border-white/5 my-4"></div>
+                <p class="text-xs text-gray-600 uppercase tracking-wider font-bold mb-2">사용 가이드</p>
+                <a href="#staff-guide" class="toc-link block text-gray-400 hover:text-brand-orange">3. 스태프 사용 가이드</a>
+                <a href="#consumer-guide" class="toc-link block text-gray-400 hover:text-brand-orange">4. 고객(소비자) 사용
+                    가이드</a>
+                <div class="border-t border-white/5 my-4"></div>
+                <p class="text-xs text-gray-600 uppercase tracking-wider font-bold mb-2">시스템 문서</p>
+                <a href="#overview" class="toc-link block text-gray-400 hover:text-brand-orange">5. 전체 시스템 개요</a>
+                <a href="#flow" class="toc-link block text-gray-400 hover:text-brand-orange">6. AI Custom Report 생성
+                    흐름</a>
+                <a href="#frontend" class="toc-link block text-gray-400 hover:text-brand-orange">7. 프론트엔드 페이지 구성</a>
+                <a href="#aws" class="toc-link block text-gray-400 hover:text-brand-orange">8. AWS 인프라 구성</a>
+                <a href="#database" class="toc-link block text-gray-400 hover:text-brand-orange">9. 데이터베이스 스키마</a>
+                <a href="#n8n" class="toc-link block text-gray-400 hover:text-brand-orange">10. n8n 워크플로우</a>
+                <a href="#reportb" class="toc-link block text-gray-400 hover:text-brand-orange">11. Report B 시스템</a>
+                <a href="#integrations" class="toc-link block text-gray-400 hover:text-brand-orange">12. 외부 연동 서비스</a>
+                <a href="#deployment" class="toc-link block text-gray-400 hover:text-brand-orange">13. 배포 구조</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ===== 12. PROMOTION PLAN ===== -->
+    <div id="promo-plan" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">01</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">🧧 설날 프로모션 계획</h2>
+                <p class="text-sm text-gray-500">Lunar New Year Promotion Plan</p>
+            </div>
+        </div>
+
+        <!-- Event Overview Banner -->
+        <div class="rounded-3xl p-8 mb-8 relative overflow-hidden"
+            style="background: linear-gradient(135deg, rgba(220,38,38,0.15), rgba(255,122,0,0.1), rgba(234,179,8,0.08)); border: 1px solid rgba(220,38,38,0.2);">
+            <div class="absolute top-4 right-6 text-5xl opacity-20">🧧</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">이벤트 기간</p>
+                    <p class="text-lg font-black text-white">2/11 ~ 2/18</p>
+                    <p class="text-xs text-red-400">설 연휴 전체</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">상품</p>
+                    <p class="text-lg font-black text-yellow-300">효(孝) 에디션</p>
+                    <p class="text-xs text-gray-500">세미커스텀 인솔</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">판매가</p>
+                    <p class="text-lg font-black text-brand-orange">₩150,000</p>
+                    <p class="text-xs text-gray-500">부가세 포함</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">발송 시작</p>
+                    <p class="text-lg font-black text-green-400">2/19(수)</p>
+                    <p class="text-xs text-gray-500">순차 발송</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Route 1: Online -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 font-black text-lg">①</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">온라인 판매 루트</h3>
+                    <p class="text-xs text-gray-500">광고 → Report B → 수기 분석 → 카톡 발송 → Smart Store</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4">
+                    <p class="mb-3">고객 여정:</p>
+                    <div class="flex flex-wrap items-center gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 font-bold">📢 광고/카톡/자사몰</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-300 font-bold">📸 Report B 사진
+                            업로드</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-yellow-500/20 text-yellow-300 font-bold">🔍 김원태 팀장 수기
+                            분석</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-yellow-500/20 text-yellow-400 font-bold">📨 카톡 리포트
+                            발송</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-green-500/20 text-green-300 font-bold">🛒 Smart Store
+                            주문</span>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4">
+                    <ul class="space-y-2">
+                        <li>• <strong class="text-white">분석 주체:</strong> 김원태 팀장이 직접 수기로 발 분석</li>
+                        <li>• <strong class="text-white">리포트 내 정보:</strong> 발 분석 결과 + 운동 추천 + 아치 타입별 인솔 링크</li>
+                        <li>• <strong class="text-white">구매:</strong> 아치 타입(High/Mid/Low)별 Smart Store 링크 → 사이즈만 선택하여 주문
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass rounded-xl p-4 border-l-4 border-yellow-500">
+                    <p class="text-xs">
+                        <strong class="text-yellow-400">⚠️ 제작 지원:</strong>
+                        주문이 몰릴 경우 <strong class="text-white">마스터 OPCT 제작 지원</strong> 필요 →
+                        <strong class="text-brand-orange">김원태 팀장 + 목진혁 마스터</strong>가 사전 체크
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Route 2: Offline Reservation -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 font-black text-lg">②</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">오프라인 판매 루트</h3>
+                    <p class="text-xs text-gray-500">매장 방문 → 족저압 측정 → AI 리포트 → 포스에 매출 입력 → 고도몰</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4">
+                    <div class="flex flex-wrap items-center gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-green-500/20 text-green-300 font-bold">🏪 매장 방문</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 font-bold">👣 족저압 분석기 측정</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-300 font-bold">🤖 AI 리포트 자동
+                            생성</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-brand-orange/20 text-brand-orange font-bold">🧾 포스에
+                            매출 입력</span>
+                        <span class="text-gray-600">→</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold">📦 고도몰 주문 입력</span>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 border-l-4 border-red-500">
+                    <p class="text-xs text-gray-400">
+                        <strong class="text-red-400">🚨 필수:</strong>
+                        고객 정보를 <strong class="text-white">정확하게 입력</strong>해야 합니다. 전화번호나 개인정보를 랜덤으로 기입하면
+                        <strong class="text-red-300">Healsy AI 리포트를 받을 수 없습니다.</strong>
+                    </p>
+                </div>
+                <div class="glass rounded-xl p-4">
+                    <ul class="space-y-2">
+                        <li>• <strong class="text-white">현장 주문 시:</strong> 포스에 매출로 세미커스텀 주문 입력</li>
+                        <li>• <strong class="text-white">마스터 역할:</strong> 고도몰에서 사이즈 + 아치 높이 직접 입력하여 주문</li>
+                        <li>• <strong class="text-white">인센티브:</strong> 기존 기성품 판매와 <strong class="text-brand-orange"
+                                style="background: rgba(255,122,0,0.15); padding: 2px 8px; border-radius: 6px;">⭐ 동일
+                                요율</strong> 적용</li>
+                        <li>• <strong class="text-white">현장 수령:</strong> ❌ 상품을 현장에서 직접 주는 것이 아님 (순차 발송)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Route 3: Offline → Online -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 font-black text-lg">③</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">오프라인 → 온라인 전환 루트</h3>
+                    <p class="text-xs text-gray-500">매장 리포트 수신 → 귀가 후 Report B → Smart Store</p>
+                </div>
+            </div>
+            <div class="glass rounded-xl p-4 text-sm text-gray-400">
+                <p>매장에서 받은 리포트에 <strong class="text-yellow-300">효 이벤트 상품 링크</strong>가 포함되어 있으므로:</p>
+                <ol class="mt-3 space-y-2 text-xs text-gray-500">
+                    <li>1. 귀가 후 리포트 내 효 에디션 링크 클릭</li>
+                    <li>2. Report B에서 <strong class="text-white">발 사진 재업로드</strong></li>
+                    <li>3. 김원태 팀장의 발 분석 리포트 수신</li>
+                    <li>4. 아치 타입별 Smart Store 링크로 주문</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Sales Routes Diagram -->
+        <div class="section-card rounded-3xl p-8 overflow-x-auto">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">3가지 판매 루트 다이어그램</h3>
+            <div class="mermaid">
+                graph TD
+                subgraph "① 온라인 판매"
+                A1["📢 광고/카톡/자사몰"] --> A2["📸 Report B"]
+                A2 --> A3["🔍 수기 분석\n김원태 팀장"]
+                A3 --> A4["📨 카톡 발송"]
+                A4 --> A5["🛒 Smart Store"]
+                end
+                subgraph "② 오프라인 판매"
+                B1["🏪 매장 방문"] --> B2["👣 족저압 분석기"]
+                B2 --> B3["🤖 AI 리포트"]
+                B3 --> B4["🧾 포스 매출 입력"]
+                B4 --> B5["📦 고도몰 입력"]
+                end
+                subgraph "③ 오프라인 → 온라인"
+                C1["🏪 매장 리포트 수신"] --> C2["📸 Report B 재업로드"]
+                C2 --> C3["🔍 수기 분석"]
+                C3 --> C4["🛒 Smart Store"]
+                end
+                A5 --> D["📦 2/19 순차발송"]
+                B5 --> D
+                C4 --> D
+
+                classDef online fill:#3B82F6,stroke:#2563EB,color:#fff
+                classDef offline fill:#10B981,stroke:#059669,color:#fff
+                classDef convert fill:#8B5CF6,stroke:#7C3AED,color:#fff
+                classDef ship fill:#FF7A00,stroke:#E06B00,color:#fff
+                class A1,A2,A3,A4,A5 online
+                class B1,B2,B3,B4,B5 offline
+                class C1,C2,C3,C4 convert
+                class D ship
+            </div>
+        </div>
+
+        <!-- Policy Summary -->
+        <div class="section-card rounded-3xl p-8 mt-6">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">가격 및 정책 요약</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-white/10">
+                            <th class="py-3 px-4 text-left text-gray-400 font-medium">항목</th>
+                            <th class="py-3 px-4 text-left text-gray-400 font-medium">내용</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">상품명</td>
+                            <td class="py-3 px-4">효(孝) 에디션 세미커스텀 인솔</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">판매가</td>
+                            <td class="py-3 px-4"><span class="text-brand-orange font-bold">₩150,000</span> (VAT 포함)
+                            </td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">이벤트 기간</td>
+                            <td class="py-3 px-4">2/11(화) ~ 2/18(화)</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">발송 시작</td>
+                            <td class="py-3 px-4">2/19(수) 순차 발송</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">무료 수정</td>
+                            <td class="py-3 px-4"><span class="text-red-400 font-bold">❌ 불가</span></td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">수정 희망 시</td>
+                            <td class="py-3 px-4">+₩100,000 추가 → 2회 수정 가능</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-bold text-white">마스터 인센티브</td>
+                            <td class="py-3 px-4">기성품 판매와 동일 요율</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Team Responsibilities -->
+        <div class="section-card rounded-3xl p-8 mt-6">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">담당자별 역할</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass rounded-xl p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span
+                            class="w-8 h-8 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange font-bold text-sm">김</span>
+                        <p class="font-bold text-white">김원태 팀장</p>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-gray-500">
+                        <li>• 온라인 주문 수기 발 분석 진행</li>
+                        <li>• 카톡 리포트 발송 관리</li>
+                        <li>• 제작 물량 몰릴 경우 OPCT 제작 지원 확인</li>
+                    </ul>
+                </div>
+                <div class="glass rounded-xl p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span
+                            class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 font-bold text-sm">목</span>
+                        <p class="font-bold text-white">목진혁 마스터</p>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-gray-500">
+                        <li>• OPCT 제작 지원 담당</li>
+                        <li>• 김원태 팀장과 제작 일정 조율</li>
+                        <li>• 물량 집중 시 제작 백업</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 14. MASTER MANUAL ===== -->
+    <div id="master-manual" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-4">
+            <span class="text-4xl font-black text-brand-orange/20">02</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">📋 마스터(스태프) 매뉴얼</h2>
+                <p class="text-sm text-gray-500">Master &amp; Staff Operational Manual</p>
+            </div>
+        </div>
+        <p class="text-sm text-gray-500 mb-8 glass rounded-xl px-5 py-3 inline-block">
+            이 섹션은 매장 마스터에게 직접 전달하는 가이드입니다. 프린트하여 매장에 배치하세요.
+        </p>
+
+        <!-- PART A: Portal -->
+        <div class="rounded-3xl p-8 mb-6"
+            style="background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(99,102,241,0.05)); border: 1px solid rgba(59,130,246,0.15);">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span
+                    class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-black">A</span>
+                Staff Portal 사용법
+            </h3>
+
+            <!-- Manual Step 1 -->
+            <div class="space-y-4">
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span
+                            class="w-9 h-9 rounded-full bg-brand-orange flex items-center justify-center text-white font-black">1</span>
+                        <h4 class="font-bold text-white text-base">포털 접속 및 로그인</h4>
+                    </div>
+                    <div class="ml-12 space-y-2 text-sm text-gray-400">
+                        <p><strong class="text-white">아이패드 또는 매장 컴퓨터</strong>의 브라우저에서 접속: <a
+                                href="https://healsy.com.au/staff-portal-v4.html" target="_blank"
+                                class="text-cyan-400 hover:underline font-mono">healsy.com.au/staff-portal-v4.html</a>
+                        </p>
+                        <div class="glass rounded-lg p-3 mt-2">
+                            <p class="text-xs text-gray-500">🔑 <strong class="text-white">Healsy 족저압기 로그인 아이디</strong>를
+                                입력하고, 비밀번호는 <strong class="text-brand-orange">1111</strong>을 입력하여 로그인합니다.</p>
+                            <p class="text-xs text-gray-600 mt-1">예: 아이스탠드 22 → 매장 ID: <code
+                                    class="text-brand-orange">istand22</code> / 비밀번호: <code
+                                    class="text-brand-orange">1111</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Step 2 -->
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span
+                            class="w-9 h-9 rounded-full bg-brand-orange flex items-center justify-center text-white font-black">2</span>
+                        <h4 class="font-bold text-white text-base">고객 목록 확인 (새로고침)</h4>
+                    </div>
+                    <div class="ml-12 space-y-2 text-sm text-gray-400">
+                        <p>족저압 분석기로 고객을 촬영한 후, 포털 우측 상단 <span
+                                class="px-2 py-0.5 rounded-lg bg-blue-500/20 text-blue-300 text-xs font-bold">🔄
+                                새로고침</span> 버튼을 눌러 고객 목록을 업데이트합니다.</p>
+                        <div class="glass rounded-lg p-3 mt-2 border-l-4 border-yellow-500">
+                            <p class="text-xs text-yellow-400"><strong>💡 팁:</strong> 촬영 직후 바로 보이지 않을 수 있습니다. 30초~1분 후에
+                                새로고침해주세요.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Step 3 -->
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span
+                            class="w-9 h-9 rounded-full bg-brand-orange flex items-center justify-center text-white font-black">3</span>
+                        <h4 class="font-bold text-white text-base">AI 리포트 생성</h4>
+                    </div>
+                    <div class="ml-12 space-y-2 text-sm text-gray-400">
+                        <p>고객 행의 <span
+                                class="px-2 py-0.5 rounded-lg bg-green-500/20 text-green-400 text-xs font-bold">생성</span>
+                            버튼을 클릭합니다.</p>
+                        <div class="rounded-xl p-4 mt-2 border-2 border-red-500/50"
+                            style="background: rgba(239,68,68,0.06);">
+                            <p class="text-sm font-bold text-red-400 mb-2">🚨 중요: 반드시 지켜주세요!</p>
+                            <ul class="space-y-1.5 text-xs text-gray-400">
+                                <li>• <strong class="text-white">한 번만 누르세요!</strong> 여러 번 누르면 중복 생성됩니다.</li>
+                                <li>• 누른 후 <strong class="text-white">약 1분 정도 기다려주세요.</strong></li>
+                                <li>• 1분 후 <span class="text-blue-300">새로고침</span>을 눌러 상태를 확인합니다.</li>
+                                <li>• 상태가 <span
+                                        class="px-1.5 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-300">완료</span>로
+                                    변경되면 성공!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Step 4 -->
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span
+                            class="w-9 h-9 rounded-full bg-brand-orange flex items-center justify-center text-white font-black">4</span>
+                        <h4 class="font-bold text-white text-base">리포트 확인 (열기)</h4>
+                    </div>
+                    <div class="ml-12 text-sm text-gray-400">
+                        <p>상태가 <span
+                                class="px-1.5 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-300">완료</span>가
+                            되면 <span class="px-2 py-0.5 rounded-lg bg-white/10 text-white text-xs font-bold">열기</span>
+                            버튼이 활성화됩니다.</p>
+                        <p class="text-xs text-gray-600 mt-2">새 탭에서 고객의 AI 분석 리포트가 열립니다. 매장에서 고객에게 직접 보여줄 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <!-- Manual Step 5 -->
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span
+                            class="w-9 h-9 rounded-full bg-yellow-400 flex items-center justify-center text-black font-black">5</span>
+                        <h4 class="font-bold text-white text-base">카카오톡 발송</h4>
+                    </div>
+                    <div class="ml-12 space-y-2 text-sm text-gray-400">
+                        <p><span
+                                class="px-2 py-0.5 rounded-lg bg-yellow-500/20 text-yellow-400 text-xs font-bold">카카오</span>
+                            버튼을 클릭 → <strong class="text-red-400">⚠️ 고객명, 전화번호 반드시 확인</strong> → <strong
+                                class="text-yellow-400">발송</strong></p>
+                        <div class="glass rounded-lg p-3 mt-2 border-l-4 border-red-500">
+                            <p class="text-xs text-red-400"><strong>⚠️ 전화번호가 잘못되면 다른 사람에게 리포트가 전달됩니다!</strong> 발송 전 반드시
+                                확인해주세요.</p>
+                        </div>
+                        <div class="glass rounded-lg p-3 mt-2">
+                            <p class="text-xs text-gray-500">✅ <strong class="text-white">"리포트에 운동법도 있으니 참고해
+                                    주세요"</strong> 라고 고객에게 안내 부탁드립니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART B: Customer Info -->
+        <div class="rounded-3xl p-8 mb-6"
+            style="background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(220,38,38,0.05)); border: 1px solid rgba(239,68,68,0.2);">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span
+                    class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center text-red-400 text-sm font-black">B</span>
+                고객 정보 입력 — 반드시 정확하게!
+            </h3>
+            <div class="glass rounded-2xl p-6">
+                <div class="flex items-start gap-4">
+                    <span class="text-4xl">🚨</span>
+                    <div>
+                        <p class="text-base font-bold text-red-400 mb-3">족저압 측정 시 고객 정보를 정확하게 입력해야 합니다</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center gap-3">
+                                <span class="text-red-400 font-bold text-lg">✗</span>
+                                <div class="glass rounded-lg p-3 flex-1 border border-red-500/20">
+                                    <p class="text-gray-400"><strong class="text-red-400">잘못된 예:</strong> 전화번호를 <code
+                                            class="text-red-300">010-0000-0000</code> 같이 랜덤 입력</p>
+                                    <p class="text-xs text-red-400/70 mt-1">→ AI 리포트 발송 불가!</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-400 font-bold text-lg">✓</span>
+                                <div class="glass rounded-lg p-3 flex-1 border border-green-500/20">
+                                    <p class="text-gray-400"><strong class="text-green-400">올바른 예:</strong> 고객의 <strong
+                                            class="text-white">실제 이름</strong>과 <strong class="text-white">실제
+                                            전화번호</strong> 입력</p>
+                                    <p class="text-xs text-green-400/70 mt-1">→ 카카오톡으로 리포트 정상 발송!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART C: Offline Sales Process -->
+        <div class="rounded-3xl p-8 mb-6"
+            style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(5,150,105,0.05)); border: 1px solid rgba(16,185,129,0.15);">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span
+                    class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 text-sm font-black">C</span>
+                오프라인 판매 프로세스
+            </h3>
+            <div class="space-y-4">
+                <div class="glass rounded-2xl p-5">
+                    <h4 class="font-bold text-white text-sm mb-3">현장 주문 처리 (고객이 현장에서 구매 원할 시)</h4>
+                    <ol class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-start gap-2">
+                            <span class="text-brand-orange font-bold min-w-[20px]">1.</span>
+                            <span>포스에 <strong class="text-white">"매출 입력"</strong>으로 효 에디션 세미커스텀 주문 입력</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-brand-orange font-bold min-w-[20px]">2.</span>
+                            <span><strong class="text-white">고도몰</strong>에서 사이즈 + 아치 높이를 마스터가 직접 입력하여 주문</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-brand-orange font-bold min-w-[20px]">3.</span>
+                            <span>상품은 <strong class="text-yellow-300">현장 수령이 아닙니다</strong> — 2/19(수)부터 순차 배송</span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="glass rounded-2xl p-5">
+                    <h4 class="font-bold text-white text-sm mb-3">강조 포인트</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✅</span>
+                            <span><strong class="text-white">버큠이나 다른 측정이 필요 없습니다</strong> — 족저압 측정만으로 충분!</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✅</span>
+                            <span>판매 인센티브는 기존 기성품과 <strong class="text-brand-orange">동일 요율</strong>입니다.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✅</span>
+                            <span>사이즈 확정만 하면 되는 간편한 주문 구조입니다.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART D: Modification Policy -->
+        <div class="rounded-3xl p-8 mb-6"
+            style="background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(217,119,6,0.05)); border: 1px solid rgba(245,158,11,0.2);">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span
+                    class="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-sm font-black">D</span>
+                세미커스텀 수정 정책 — 고객 사전 고지 필수!
+            </h3>
+            <div class="glass rounded-2xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="rounded-xl p-5 text-center"
+                        style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);">
+                        <p class="text-3xl mb-3">🚫</p>
+                        <p class="text-lg font-black text-red-400 mb-1">무료 수정 불가</p>
+                        <p class="text-xs text-gray-500">효(孝) 에디션 세미커스텀은<br>무료 수정이 포함되지 않습니다</p>
+                    </div>
+                    <div class="rounded-xl p-5 text-center"
+                        style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);">
+                        <p class="text-3xl mb-3">💰</p>
+                        <p class="text-lg font-black text-green-400 mb-1">+₩100,000 추가</p>
+                        <p class="text-xs text-gray-500">추가 금액을 지불하면<br><strong class="text-white">2회 수정</strong> 가능합니다
+                        </p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 mt-5 border-l-4 border-yellow-500">
+                    <p class="text-xs text-gray-400">
+                        <strong class="text-yellow-400">⚠️ 반드시 주문 전에 고객에게 안내해주세요.</strong>
+                        수정 관련 클레임은 고객이 사전에 충분히 인지했을 때 예방할 수 있습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART E: Refund Policy -->
+        <div class="rounded-3xl p-8 mb-6"
+            style="background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(37,99,235,0.05)); border: 1px solid rgba(59,130,246,0.2);">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span
+                    class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-black">E</span>
+                환불 정책 안내
+            </h3>
+            <div class="space-y-4">
+                <div class="glass rounded-2xl p-5">
+                    <h4 class="font-bold text-white text-sm mb-3">환불 기본 정책</h4>
+                    <div class="glass rounded-lg p-4 border-l-4 border-blue-500">
+                        <p class="text-sm text-gray-400">확정 공지: <strong class="text-white">주문일부터 1개월 이내 환불 가능</strong>
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1">고객에게 환불 기간을 안내해주세요.</p>
+                    </div>
+                </div>
+                <div class="glass rounded-2xl p-5">
+                    <h4 class="font-bold text-white text-sm mb-3">환불 처리 방법 (매장 유형별)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="rounded-xl p-4"
+                            style="background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);">
+                            <p class="text-sm font-bold text-red-400 mb-2">현대 입점 매장</p>
+                            <p class="text-xs text-gray-400">환불 문의 시 → <strong class="text-white">본사에 연락</strong>하여 처리
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">매장에서 직접 환불 처리하지 마세요!</p>
+                        </div>
+                        <div class="rounded-xl p-4"
+                            style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15);">
+                            <p class="text-sm font-bold text-green-400 mb-2">기타 매장</p>
+                            <p class="text-xs text-gray-400">매장 <strong class="text-white">포스에서 취소 처리</strong></p>
+                            <p class="text-xs text-gray-500 mt-1">인솔은 매장에서 보관합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-xl p-4 border-2 border-red-500/50" style="background: rgba(239,68,68,0.06);">
+                    <p class="text-sm font-bold text-red-400 mb-2">🚨 상품 발송 전 환불 요청 시 주의!</p>
+                    <ul class="space-y-1.5 text-xs text-gray-400">
+                        <li>• <strong class="text-white">고도몰에서 발송 여부를 반드시 확인</strong>하세요.</li>
+                        <li>• 발송 전이면 <strong class="text-white">본사에 문의</strong>하여 처리합니다.</li>
+                        <li>• 이미 발송된 경우, 반품 절차에 따라 처리됩니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference Card -->
+        <div class="section-card rounded-3xl p-8">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">마스터 빠른 참조 카드</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-white/10">
+                            <th class="py-3 px-4 text-left text-gray-400 font-medium w-1/3">항목</th>
+                            <th class="py-3 px-4 text-left text-gray-400 font-medium">내용</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">Staff Portal URL</td>
+                            <td class="py-3 px-4"><a href="https://healsy.com.au/staff-portal-v4.html" target="_blank"
+                                    class="text-cyan-400 hover:underline font-mono text-xs">healsy.com.au/staff-portal-v4.html</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">이벤트 기간</td>
+                            <td class="py-3 px-4">2/11(화) ~ 2/18(화)</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">상품 가격</td>
+                            <td class="py-3 px-4">₩150,000 (VAT 포함)</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">수정 정책</td>
+                            <td class="py-3 px-4">무료수정 ❌ / +₩100,000 → 2회 수정</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">추가 측정</td>
+                            <td class="py-3 px-4">버큠 등 불필요 (족저압 측정만)</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">현장 수령</td>
+                            <td class="py-3 px-4">❌ 불가 (2/19~ 순차 발송)</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 px-4 font-bold text-white">인센티브</td>
+                            <td class="py-3 px-4">기성품 동일 요율</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-bold text-white">리포트 생성 대기</td>
+                            <td class="py-3 px-4">1회 클릭 → ~1분 대기 → 새로고침</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-bold text-white">환불 정책</td>
+                            <td class="py-3 px-4">1개월 내 환불 / 현대매장→본사연락 / 기타→포스취소</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Master Workflow Diagram -->
+        <div class="section-card rounded-3xl p-8 mt-6 overflow-x-auto">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">마스터 현장 업무 흐름</h3>
+            <div class="mermaid">
+                graph TD
+                A["👣 고객 족저압 측정"] --> B["📝 정확한 고객 정보 입력"]
+                B --> C["💻 Staff Portal 새로고침"]
+                C --> D["✨ 생성 버튼 1회 클릭"]
+                D --> E["⏳ 약 1분 대기"]
+                E --> F["🔄 새로고침으로 상태 확인"]
+                F --> G{"완료?"}
+                G -->|"✅ 완료"| H["👁️ 열기로 리포트 확인"]
+                G -->|"⏳ 아직"| E
+                H --> I["📨 카카오 버튼으로 발송"]
+                I --> J{"현장 주문?"}
+                J -->|"예"| K["🧾 포스 매출 입력"]
+                K --> L["📦 고도몰 사이즈+아치 입력"]
+                J -->|"아니오"| M["📱 고객 리포트 내 링크로 추후 주문"]
+
+                classDef measure fill:#3B82F6,stroke:#2563EB,color:#fff
+                classDef portal fill:#8B5CF6,stroke:#7C3AED,color:#fff
+                classDef wait fill:#F59E0B,stroke:#D68B09,color:#000
+                classDef check fill:#EF4444,stroke:#DC2626,color:#fff
+                classDef done fill:#10B981,stroke:#059669,color:#fff
+                classDef sale fill:#FF7A00,stroke:#E06B00,color:#fff
+
+                class A,B measure
+                class C,D,F portal
+                class E,G wait
+                class H,I done
+                class K,L sale
+                class M done
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 10. STAFF GUIDE ===== -->
+    <div id="staff-guide" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">03</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">스태프 사용 가이드</h2>
+                <p class="text-sm text-gray-500">Staff Usage Guide</p>
+            </div>
+        </div>
+
+        <p class="text-gray-400 leading-relaxed mb-8">
+            지점 스태프가 Staff Portal을 통해 고객 데이터를 관리하고, AI 리포트를 생성하며, 카카오톡으로 발송하는 전체 프로세스입니다.
+        </p>
+
+        <!-- Step 1: Login -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center text-brand-orange font-black text-lg">1</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">로그인</h3>
+                    <p class="text-xs text-gray-500">Staff Portal 접속</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-brand-orange font-bold min-w-[20px]">①</span>
+                    <div>
+                        <p><strong class="text-white">아이패드 또는 매장 컴퓨터</strong>의 브라우저에서 <a
+                                href="https://healsy.com.au/staff-portal-v4.html" target="_blank"
+                                class="text-cyan-400 hover:underline">healsy.com.au/staff-portal-v4.html</a> 접속</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-brand-orange font-bold min-w-[20px]">②</span>
+                    <div>
+                        <p><strong class="text-white">Healsy 족저압기 로그인 아이디</strong>를 지점 ID에 입력하고, 비밀번호는 <strong
+                                class="text-brand-orange">1111</strong>을 입력하여 로그인
+                        </p>
+                        <p class="text-xs text-gray-600 mt-1">예: 아이스탠드 22 → 지점 ID: istand22 / 비밀번호: 1111</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Dashboard -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center text-brand-orange font-black text-lg">2</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">대시보드 확인</h3>
+                    <p class="text-xs text-gray-500">고객 목록 및 리포트 상태 확인</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4">
+                    <p>로그인 후 해당 지점의 <strong class="text-white">고객 목록</strong>이 테이블에 표시됩니다:</p>
+                    <ul class="mt-2 space-y-1 text-xs text-gray-500">
+                        <li>• <strong class="text-white">상단 통계 카드:</strong> 전체 / 오늘 / 생성 완료 / 검색 결과</li>
+                        <li>• <strong class="text-white">검색:</strong> 이름, 전화번호, Report ID로 검색 가능</li>
+                        <li>• <strong class="text-white">기간 필터:</strong> 오늘 / 7일 / 30일 / 90일 / 전체</li>
+                        <li>• <strong class="text-white">새로고침:</strong> 우측 상단 버튼으로 데이터 업데이트</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Generate Report -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center text-brand-orange font-black text-lg">3</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">AI 리포트 생성</h3>
+                    <p class="text-xs text-gray-500">버튼 한 번으로 자동 생성</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-brand-orange font-bold min-w-[20px]">①</span>
+                    <div>
+                        <p>테이블에서 리포트 상태가 <span
+                                class="px-2 py-0.5 rounded text-xs font-bold bg-gray-500/20 text-gray-300">대기</span>인
+                            고객의 <span
+                                class="px-2 py-0.5 rounded-lg bg-green-500/20 text-green-400 text-xs font-bold">생성</span>
+                            버튼 클릭</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-brand-orange font-bold min-w-[20px]">②</span>
+                    <div>
+                        <p>상태가 <span
+                                class="px-2 py-0.5 rounded text-xs font-bold bg-blue-500/20 text-blue-300">생성</span>으로
+                            표시됩니다</p>
+                        <p class="text-xs text-yellow-400 mt-1"><strong>⏳ 약 1분 정도 기다려주세요.</strong> 바로 상태가 변경되지 않습니다.</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-brand-orange font-bold min-w-[20px]">③</span>
+                    <div>
+                        <p><strong class="text-white">1분 후 새로고침</strong> 버튼을 눌러 상태를 확인하세요. <span
+                                class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-300">완료</span>로
+                            변경되면 리포트 생성 완료!</p>
+                        <p class="text-xs text-red-400 mt-1">⚠️ <strong>생성 버튼을 여러 번 누르지 마세요!</strong> 중복 생성됩니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-xl p-4 mt-4 border-l-4 border-red-500">
+                <p class="text-xs text-gray-400">
+                    <strong class="text-red-400">⚠️ 실패 시:</strong>
+                    상태가 <span class="px-1.5 py-0.5 rounded text-xs font-bold bg-red-500/20 text-red-300">실패</span>로 표시되면
+                    <span class="text-white font-bold">재시도</span> 버튼으로 다시 생성할 수 있습니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 4: Open Report -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center text-brand-orange font-black text-lg">4</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">리포트 열기 / 확인</h3>
+                    <p class="text-xs text-gray-500">고객에게 보여주기 전 내용 확인</p>
+                </div>
+            </div>
+            <div class="glass rounded-xl p-4 text-sm text-gray-400">
+                <p>상태가 <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-300">완료</span>인 고객의
+                    <span class="px-2 py-0.5 rounded-lg bg-white/10 text-white text-xs font-bold">열기</span> 버튼을 클릭하면 새
+                    탭에서 리포트가 열립니다.
+                </p>
+                <ul class="mt-3 space-y-1 text-xs text-gray-500">
+                    <li>• 히트맵, 부상 위험도, 운동 처방 등 AI 분석 결과 확인</li>
+                    <li>• 매장에서 고객에게 직접 보여주기 가능</li>
+                    <li>• URL이 <code class="text-brand-orange">?id={uuid}</code>가 포함된 고유 링크</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 5: KakaoTalk -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-black text-lg">5</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">카카오톡 발송</h3>
+                    <p class="text-xs text-gray-500">고객에게 리포트 링크 발송</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-yellow-400 font-bold min-w-[20px]">①</span>
+                    <div>
+                        <p><span
+                                class="px-2 py-0.5 rounded-lg bg-yellow-500/20 text-yellow-400 text-xs font-bold">카카오</span>
+                            버튼 클릭 (리포트 완료 상태여야 활성화)</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-start gap-3 border-l-4 border-red-500">
+                    <span class="text-yellow-400 font-bold min-w-[20px]">②</span>
+                    <div>
+                        <p>확인 팝업에서 <strong class="text-red-400 text-base">⚠️ 고객명</strong>과 <strong
+                                class="text-red-400 text-base">전화번호를 반드시 확인</strong>한
+                            후 <strong class="text-yellow-400">발송</strong> 버튼 클릭</p>
+                        <p class="text-xs text-red-400/80 mt-1">잘못된 번호로 발송하면 다른 사람에게 리포트가 전달됩니다!</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-yellow-400 font-bold min-w-[20px]">③</span>
+                    <div>
+                        <p>고객의 카카오톡으로 리포트 링크가 자동 발송됩니다</p>
+                        <p class="text-xs text-gray-600 mt-1">Bizm API를 통해 알림톡 발송</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff Flow Diagram -->
+        <div class="section-card rounded-3xl p-8 overflow-x-auto">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">스태프 워크플로우 요약</h3>
+            <div class="mermaid">
+                graph LR
+                A["🔑 로그인"] --> B["📊 대시보드 확인"]
+                B --> C["✨ 리포트 생성"]
+                C --> D{"상태 확인"}
+                D -->|"완료"| E["👁️ 리포트 열기"]
+                D -->|"실패"| C
+                E --> F["📨 카카오톡 발송"]
+                F --> G["✅ 완료"]
+
+                classDef start fill:#FF7A00,stroke:#E06B00,color:#fff
+                classDef action fill:#3B82F6,stroke:#2563EB,color:#fff
+                classDef check fill:#F59E0B,stroke:#D68B09,color:#000
+                classDef done fill:#10B981,stroke:#059669,color:#fff
+                classDef kakao fill:#FEE500,stroke:#B8A600,color:#000
+
+                class A start
+                class B,C,E action
+                class D check
+                class F kakao
+                class G done
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 11. CONSUMER GUIDE ===== -->
+    <div id="consumer-guide" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">04</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">고객(소비자) 사용 가이드</h2>
+                <p class="text-sm text-gray-500">Consumer Usage Guide</p>
+            </div>
+        </div>
+
+        <p class="text-gray-400 leading-relaxed mb-8">
+            고객이 카카오톡 또는 링크로 받은 리포트를 확인하고, 커스텀 인솔을 주문하는 프로세스입니다.
+        </p>
+
+        <!-- Consumer Step 1 -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 font-black text-lg">1</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">리포트 수신</h3>
+                    <p class="text-xs text-gray-500">카카오톡 또는 URL 링크</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-blue-400 font-bold min-w-[20px]">📩</span>
+                    <div>
+                        <p>카카오톡으로 수신된 <strong class="text-white">리포트 링크</strong>를 터치하여 열기</p>
+                        <p class="text-xs text-gray-600 mt-1">또는 매장에서 직접 QR 코드 / URL로 접속</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4">
+                    <p class="text-xs text-gray-500">리포트 URL 형식: <code
+                            class="text-brand-orange">healsy.com.au/healsy-report-v4.html?id={uuid}</code></p>
+                    <p class="text-xs text-gray-600 mt-1">각 고객마다 고유한 UUID가 포함된 개인 전용 링크입니다</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consumer Step 2 -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 font-black text-lg">2</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">리포트 확인</h3>
+                    <p class="text-xs text-gray-500">모바일 최적화 페이지</p>
+                </div>
+            </div>
+            <div class="glass rounded-xl p-4 text-sm text-gray-400">
+                <p>리포트 페이지에서 다음 항목을 확인할 수 있습니다:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                    <div class="glass rounded-lg p-3">
+                        <p class="text-xs font-bold text-brand-orange mb-1">📊 건강 점수</p>
+                        <p class="text-xs text-gray-500">종합 발 건강 점수 (100점 만점)</p>
+                    </div>
+                    <div class="glass rounded-lg p-3">
+                        <p class="text-xs font-bold text-brand-orange mb-1">🧬 족저압 히트맵</p>
+                        <p class="text-xs text-gray-500">좌/우 발 압력 분포 시각화</p>
+                    </div>
+                    <div class="glass rounded-lg p-3">
+                        <p class="text-xs font-bold text-brand-orange mb-1">⚠️ 부상 위험도</p>
+                        <p class="text-xs text-gray-500">족저근막염 / 아킬레스건 등 5가지 위험 분석</p>
+                    </div>
+                    <div class="glass rounded-lg p-3">
+                        <p class="text-xs font-bold text-brand-orange mb-1">🏋️ 운동 처방</p>
+                        <p class="text-xs text-gray-500">AI 기반 맞춤형 자세 교정 운동 3종</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consumer Step 3 -->
+        <div class="section-card rounded-3xl p-8 mb-6">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 font-black text-lg">3</span>
+                <div>
+                    <h3 class="text-lg font-bold text-white">커스텀 인솔 주문</h3>
+                    <p class="text-xs text-gray-500">리포트 내 CTA 버튼</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-sm text-gray-400">
+                <div class="glass rounded-xl p-4">
+                    <p class="mb-3">리포트 하단에 2개의 주문 버튼이 있습니다:</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 p-3 rounded-xl"
+                            style="background: linear-gradient(135deg, rgba(218,165,32,0.15), rgba(184,134,11,0.08)); border: 1px solid rgba(218,165,32,0.2);">
+                            <span class="text-lg">🌟</span>
+                            <div>
+                                <p class="text-sm font-bold text-yellow-300">기간 한정 | 효(孝) 에디션 세미커스텀 보러가기</p>
+                                <p class="text-xs text-gray-500 mt-0.5">→ <a
+                                        href="https://healsy.com.au/report/measure_b.html" target="_blank"
+                                        class="text-cyan-400 hover:underline">healsy.com.au/report/measure_b.html</a> 으로
+                                    이동</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-3 p-3 rounded-xl bg-brand-orange/10 border border-brand-orange/20">
+                            <span class="text-lg">🧰</span>
+                            <div>
+                                <p class="text-sm font-bold text-brand-orange">커스텀 인솔 제작하기</p>
+                                <p class="text-xs text-gray-500 mt-0.5">→ Naver Smart Store (SIDAS 인솔 구매 페이지)로 이동</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consumer Flow Diagram -->
+        <div class="section-card rounded-3xl p-8 overflow-x-auto">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">고객 여정 요약</h3>
+            <div class="mermaid">
+                graph LR
+                A["📱 카카오톡 링크 수신"] --> B["📊 리포트 확인"]
+                B --> C["🧬 건강 점수 및 히트맵 확인"]
+                C --> D["⚠️ 부상 위험 및 운동 처방 확인"]
+                D --> E{"인솔 주문?"}
+                E -->|"효 에디션"| F["🌟 Measure B 세미커스텀"]
+                E -->|"SIDAS"| G["🛍️ Smart Store 커스텀 인솔"]
+                E -->|"다음에"| H["📅 나중에 재방문"]
+
+                classDef start fill:#3B82F6,stroke:#2563EB,color:#fff
+                classDef view fill:#7C3AED,stroke:#6D28D9,color:#fff
+                classDef choice fill:#F59E0B,stroke:#D68B09,color:#000
+                classDef buy fill:#10B981,stroke:#059669,color:#fff
+                classDef later fill:#6B7280,stroke:#4B5563,color:#fff
+
+                class A start
+                class B,C,D view
+                class E choice
+                class F,G buy
+                class H later
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===== 1. OVERVIEW ===== -->
+    <div id="overview" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">05</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">전체 시스템 개요</h2>
+                <p class="text-sm text-gray-500">System Overview</p>
+            </div>
+        </div>
+        <p class="text-gray-400 leading-relaxed mb-8">
+            Healsy 시스템은 <strong class="text-white">족저압 측정 하드웨어</strong>에서 수집된 데이터를
+            <strong class="text-white">AI(Gemini)</strong>로 분석하고,
+            <strong class="text-white">AWS 클라우드</strong>에 저장하여 고객에게
+            <strong class="text-white">맞춤형 건강 리포트</strong>를 제공하는 통합 플랫폼입니다.
+        </p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div class="stat-card rounded-2xl p-5 text-center">
+                <p class="text-3xl font-black text-white">5</p>
+                <p class="text-xs text-gray-500 mt-1">프론트엔드 페이지</p>
+            </div>
+            <div class="stat-card rounded-2xl p-5 text-center">
+                <p class="text-3xl font-black text-white">4</p>
+                <p class="text-xs text-gray-500 mt-1">AWS 서비스</p>
+            </div>
+            <div class="stat-card rounded-2xl p-5 text-center">
+                <p class="text-3xl font-black text-white">3</p>
+                <p class="text-xs text-gray-500 mt-1">외부 연동</p>
+            </div>
+            <div class="stat-card rounded-2xl p-5 text-center">
+                <p class="text-3xl font-black text-white">2</p>
+                <p class="text-xs text-gray-500 mt-1">RDS 인스턴스</p>
+            </div>
+        </div>
+
+        <div class="section-card rounded-3xl p-8 overflow-x-auto">
+            <div class="mermaid">
+                graph TB
+                subgraph Frontend["🖥️ Frontend - healsy.com.au"]
+                SP4["Staff Portal V4\nstaff-portal-v4.html"]
+                RPT4["AI Custom Report V4\nhealsy-report-v4.html"]
+                SPB["Staff Portal B\nstaff_portal_b.html"]
+                RPTB["Report B\nreport_b.html"]
+                MEASB["Measure B\nmeasure_b.html"]
+                end
+
+                subgraph AWS["☁️ AWS Cloud - ap-northeast-2"]
+                APIGW["API Gateway\nREST API"]
+                LAMBDA["Lambda\nhealsy-get-report"]
+                LAMBDA2["Lambda\nhealsy-list-reports"]
+                S3["S3 Bucket\nhealsy-reports"]
+                RDS_RPT["RDS MySQL\nhealsy-mysql\nhealsy_reports DB"]
+                RDS_HW["RDS MySQL\nhealsy-db\nHardware DB"]
+                end
+
+                subgraph Auto["🔧 Automation & AI"]
+                N8N["n8n Cloud\nhealsy.app.n8n.cloud"]
+                GEMINI["Google Gemini AI\nBiomechanics"]
+                KAKAO["KakaoTalk\nBizm Sender"]
+                end
+
+                DEVICE["📱 Walter Walker\nFoot Scanner"] -->|"measure_log"| RDS_HW
+                SP4 -->|"데이터 조회"| APIGW
+                SP4 -->|"리포트 생성"| N8N
+                SP4 -->|"카카오 발송"| KAKAO
+                APIGW --> LAMBDA
+                APIGW --> LAMBDA2
+                LAMBDA --> S3
+                LAMBDA --> RDS_RPT
+                LAMBDA2 --> RDS_RPT
+                N8N --> RDS_HW
+                N8N --> GEMINI
+                N8N -->|"JSON 업로드"| S3
+                N8N -->|"상태 업데이트"| RDS_RPT
+                RPT4 -->|"리포트 fetch"| APIGW
+                SP4 -->|"리포트 열기"| RPT4
+                RPT4 -->|"세미커스텀"| MEASB
+
+                classDef orange fill:#FF7A00,stroke:#E06B00,color:#fff
+                classDef blue fill:#3B82F6,stroke:#2563EB,color:#fff
+                classDef green fill:#10B981,stroke:#059669,color:#fff
+                classDef aws fill:#FF9900,stroke:#E08600,color:#000
+                classDef purple fill:#7C3AED,stroke:#6D28D9,color:#fff
+                classDef pink fill:#EA4B71,stroke:#D43A60,color:#fff
+
+                class SP4,RPT4 orange
+                class SPB,RPTB blue
+                class MEASB green
+                class LAMBDA,LAMBDA2,APIGW,S3,RDS_RPT,RDS_HW aws
+                class GEMINI purple
+                class N8N pink
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 2. DATA FLOW ===== -->
+    <div id="flow" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">06</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">AI Custom Report 생성 흐름</h2>
+                <p class="text-sm text-gray-500">Report Generation Flow</p>
+            </div>
+        </div>
+        <p class="text-gray-400 leading-relaxed mb-8">
+            Staff Portal에서 "생성" 버튼을 클릭하면 n8n 워크플로우가 실행되어 데이터 조회 → AI 분석 → S3 저장 → DB 업데이트의 전체 파이프라인이 자동으로 수행됩니다.
+        </p>
+
+        <div class="section-card rounded-3xl p-8 overflow-x-auto">
+            <div class="mermaid">
+                sequenceDiagram
+                participant Staff as 🖥️ Staff Portal
+                participant N8N as 🔧 n8n Workflow
+                participant HW as 🗄️ healsy-db
+                participant AI as 🤖 Gemini AI
+                participant S3 as 📦 S3 Bucket
+                participant DB as 🗄️ healsy_reports
+                participant Report as 📊 Report Page
+
+                Staff->>N8N: ① 리포트 생성 요청 (data_id)
+                N8N->>HW: ② 고객 데이터 조회
+                HW-->>N8N: name, birth_date, measure_log
+                N8N->>AI: ③ 족저압 AI 분석 요청
+                AI-->>N8N: 분석 JSON 결과
+                N8N->>N8N: ④ UUID 생성, age 계산, JSON 정제
+                N8N->>S3: ⑤ reports/{uuid}/report.json 업로드
+                N8N->>DB: ⑥ status=completed, s3_key 저장
+                Staff->>Staff: ⑦ 새로고침 → 상태 "완료"
+                Staff->>Report: ⑧ "열기" → ?id={uuid}
+                Report->>S3: ⑨ API Gateway → Lambda → S3
+                S3-->>Report: ⑩ 리포트 렌더링 완료
+            </div>
+        </div>
+
+        <!-- Step-by-step -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+            <div class="glass rounded-2xl p-5">
+                <div class="flex items-center gap-3 mb-3">
+                    <span
+                        class="w-7 h-7 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange text-xs font-bold">①</span>
+                    <span class="text-sm font-bold text-white">생성 요청</span>
+                </div>
+                <p class="text-xs text-gray-500">Staff Portal에서 n8n webhook으로 data_id 전송</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+                <div class="flex items-center gap-3 mb-3">
+                    <span
+                        class="w-7 h-7 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange text-xs font-bold">②③</span>
+                    <span class="text-sm font-bold text-white">데이터 조회 & AI 분석</span>
+                </div>
+                <p class="text-xs text-gray-500">MySQL에서 고객 정보 + measure_log 조회 후 Gemini AI 전송</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+                <div class="flex items-center gap-3 mb-3">
+                    <span
+                        class="w-7 h-7 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange text-xs font-bold">④⑤</span>
+                    <span class="text-sm font-bold text-white">JSON 생성 & S3 업로드</span>
+                </div>
+                <p class="text-xs text-gray-500">UUID 생성, 나이 계산, 운동 처방 파싱 후 S3에 저장</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+                <div class="flex items-center gap-3 mb-3">
+                    <span
+                        class="w-7 h-7 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange text-xs font-bold">⑧⑨⑩</span>
+                    <span class="text-sm font-bold text-white">리포트 표시</span>
+                </div>
+                <p class="text-xs text-gray-500">UUID로 API 호출 → S3 JSON 로드 → 히트맵/차트 렌더링</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 3. FRONTEND ===== -->
+    <div id="frontend" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">07</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">프론트엔드 페이지 구성</h2>
+                <p class="text-sm text-gray-500">Frontend Pages</p>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="table-styled w-full text-left rounded-2xl overflow-hidden">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3">페이지</th>
+                        <th class="px-5 py-3">파일명</th>
+                        <th class="px-5 py-3">프로덕션 URL</th>
+                        <th class="px-5 py-3">용도</th>
+                        <th class="px-5 py-3">데이터 소스</th>
+                        <th class="px-5 py-3">시스템</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-5 py-3 text-white font-bold">AI Custom Report V4</td>
+                        <td class="px-5 py-3 font-mono text-xs text-brand-orange">healsy-report-v4.html</td>
+                        <td class="px-5 py-3 font-mono text-xs"><a href="https://healsy.com.au/healsy-report-v4.html"
+                                target="_blank"
+                                class="text-cyan-400 hover:underline">healsy.com.au/healsy-report-v4.html</a></td>
+                        <td class="px-5 py-3 text-gray-400">족저압 히트맵, 부상 위험도,<br>운동 추천 리포트</td>
+                        <td class="px-5 py-3"><span class="badge badge-aws">AWS S3</span></td>
+                        <td class="px-5 py-3 text-xs text-gray-500">AI Custom Report</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3 text-white font-bold">Staff Portal V4</td>
+                        <td class="px-5 py-3 font-mono text-xs text-brand-orange">staff-portal-v4.html</td>
+                        <td class="px-5 py-3 font-mono text-xs"><a href="https://healsy.com.au/staff-portal-v4.html"
+                                target="_blank"
+                                class="text-cyan-400 hover:underline">healsy.com.au/staff-portal-v4.html</a></td>
+                        <td class="px-5 py-3 text-gray-400">고객 관리, 리포트 생성/열기,<br>카카오 발송</td>
+                        <td class="px-5 py-3"><span class="badge badge-aws">AWS API GW</span></td>
+                        <td class="px-5 py-3 text-xs text-gray-500">AI Custom Report</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3 text-white font-bold">Report B</td>
+                        <td class="px-5 py-3 font-mono text-xs text-blue-400">report_b.html</td>
+                        <td class="px-5 py-3 font-mono text-xs"><a href="https://healsy.com.au/report/report_b.html"
+                                target="_blank"
+                                class="text-cyan-400 hover:underline">healsy.com.au/report/report_b.html</a></td>
+                        <td class="px-5 py-3 text-gray-400">2D 사진 기반 분석 리포트</td>
+                        <td class="px-5 py-3"><span class="badge badge-gcp">Google Apps Script</span></td>
+                        <td class="px-5 py-3 text-xs text-gray-500">Report B</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3 text-white font-bold">Staff Portal B</td>
+                        <td class="px-5 py-3 font-mono text-xs text-blue-400">staff_portal_b.html</td>
+                        <td class="px-5 py-3 font-mono text-xs"><a
+                                href="https://healsy.com.au/report/staff_portal_b.html" target="_blank"
+                                class="text-cyan-400 hover:underline">healsy.com.au/report/staff_portal_b.html</a></td>
+                        <td class="px-5 py-3 text-gray-400">Report B용 고객 관리</td>
+                        <td class="px-5 py-3"><span class="badge badge-gcp">Google Apps Script</span></td>
+                        <td class="px-5 py-3 text-xs text-gray-500">Report B</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3 text-white font-bold">Measure B</td>
+                        <td class="px-5 py-3 font-mono text-xs text-green-400">measure_b.html</td>
+                        <td class="px-5 py-3 font-mono text-xs"><a href="https://healsy.com.au/report/measure_b.html"
+                                target="_blank"
+                                class="text-cyan-400 hover:underline">healsy.com.au/report/measure_b.html</a></td>
+                        <td class="px-5 py-3 text-gray-400">효(孝) 에디션 세미커스텀 주문</td>
+                        <td class="px-5 py-3 text-xs text-gray-500">독립 페이지</td>
+                        <td class="px-5 py-3 text-xs text-gray-500">Report B</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ===== 4. AWS INFRA ===== -->
+    <div id="aws" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">08</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">AWS 인프라 구성</h2>
+                <p class="text-sm text-gray-500">AWS Infrastructure</p>
+            </div>
+        </div>
+
+        <div class="section-card rounded-3xl p-8 mb-8 overflow-x-auto">
+            <div class="mermaid">
+                graph LR
+                subgraph APIGateway["API Gateway (REST)"]
+                EP1["GET /api/reports/'{data_id}'"]
+                EP2["GET /api/foot-data"]
+                EP3["GET /api/reports"]
+                end
+
+                subgraph Lambda["Lambda Functions"]
+                L1["healsy-get-report\nNode.js 18\nS3_BUCKET env"]
+                L2["healsy-list-reports\nNode.js 18\nRDS 직접 조회"]
+                end
+
+                subgraph RDS["RDS MySQL"]
+                DB1["healsy-mysql\nhealsy_reports DB\nfoot_reports 테이블"]
+                DB2["healsy-db\nHardware DB\nmeasure_data 테이블"]
+                end
+
+                subgraph S3Bucket["S3 Storage"]
+                B1["healsy-reports\nreports/'{uuid}'/report.json"]
+                end
+
+                EP1 --> L1
+                EP2 --> L1
+                EP3 --> L2
+                L1 -->|"JSON 조회"| B1
+                L1 -->|"상태 확인"| DB1
+                L2 -->|"목록 조회"| DB1
+
+                classDef gw fill:#FF4F8B,stroke:#D43A6B,color:#fff
+                classDef lambda fill:#FF9900,stroke:#E08600,color:#000
+                classDef db fill:#3B48CC,stroke:#2D38A0,color:#fff
+                classDef s3 fill:#569A31,stroke:#3F7A1F,color:#fff
+
+                class EP1,EP2,EP3 gw
+                class L1,L2 lambda
+                class DB1,DB2 db
+                class B1 s3
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="glass rounded-2xl p-6">
+                <h4 class="font-bold text-white text-sm flex items-center gap-2 mb-4">
+                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                    API Gateway
+                </h4>
+                <ul class="space-y-2 text-xs text-gray-400">
+                    <li>• Region: <code class="text-brand-orange">ap-northeast-2</code></li>
+                    <li>• Stage: <code class="text-brand-orange">prod</code></li>
+                    <li>• CORS: <code class="text-brand-orange">*</code> (모든 Origin 허용)</li>
+                    <li>• 엔드포인트: <code class="text-brand-orange break-all">vlz6b84cgc.execute-api...</code></li>
+                </ul>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <h4 class="font-bold text-white text-sm flex items-center gap-2 mb-4">
+                    <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+                    Lambda Functions
+                </h4>
+                <div class="mb-4">
+                    <p class="text-xs font-bold text-white mb-1">① healsy-get-report</p>
+                    <ul class="space-y-1 text-xs text-gray-400 ml-3">
+                        <li>• 개별 리포트 조회 (S3에서)</li>
+                        <li>• API: <code class="text-brand-orange">GET /api/reports/{data_id}</code></li>
+                        <li>• Env: <code class="text-brand-orange">S3_BUCKET=healsy-reports</code></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-white mb-1">② healsy-list-reports</p>
+                    <ul class="space-y-1 text-xs text-gray-400 ml-3">
+                        <li>• 리포트 목록 조회 (Staff Portal용)</li>
+                        <li>• API: <code class="text-brand-orange">GET /api/reports</code></li>
+                        <li>• RDS 직접 조회 → 지점별 고객 목록 반환</li>
+                    </ul>
+                </div>
+                <p class="text-xs text-gray-500 mt-3 pt-3 border-t border-white/10">Runtime: <code
+                        class="text-brand-orange">Node.js 18.x</code> (공통)</p>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <h4 class="font-bold text-white text-sm flex items-center gap-2 mb-4">
+                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                    S3 Bucket
+                </h4>
+                <ul class="space-y-2 text-xs text-gray-400">
+                    <li>• Bucket: <code class="text-brand-orange">healsy-reports</code></li>
+                    <li>• 구조: <code class="text-brand-orange">reports/{uuid}/report.json</code></li>
+                    <li>• UUID: 8자리가 아닌 <strong class="text-white">전체 UUID</strong> 사용</li>
+                    <li>• 접근: Lambda IAM Role을 통한 접근</li>
+                </ul>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <h4 class="font-bold text-white text-sm flex items-center gap-2 mb-4">
+                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                    RDS MySQL
+                </h4>
+                <ul class="space-y-2 text-xs text-gray-400">
+                    <li>• <strong class="text-white">healsy-mysql:</strong> healsy_reports DB (리포트 관리)</li>
+                    <li>• <strong class="text-white">healsy-db:</strong> Hardware DB (측정 원본 데이터)</li>
+                    <li>• Region: <code class="text-brand-orange">ap-northeast-2</code></li>
+                    <li>• Engine: <code class="text-brand-orange">MySQL 8.x</code></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 5. DATABASE SCHEMA ===== -->
+    <div id="database" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">09</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">데이터베이스 스키마</h2>
+                <p class="text-sm text-gray-500">Database Schema</p>
+            </div>
+        </div>
+
+        <div class="section-card rounded-3xl p-8 mb-8">
+            <h3 class="text-lg font-bold text-white mb-1">healsy_reports.foot_reports</h3>
+            <p class="text-xs text-gray-500 mb-6">healsy-mysql RDS · 리포트 상태 관리 테이블</p>
+            <div class="overflow-x-auto">
+                <table class="table-styled w-full text-left">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2.5">컬럼명</th>
+                            <th class="px-4 py-2.5">타입</th>
+                            <th class="px-4 py-2.5">Key</th>
+                            <th class="px-4 py-2.5">설명</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-mono text-xs">
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">data_id</td>
+                            <td class="px-4 py-2.5">VARCHAR(50)</td>
+                            <td class="px-4 py-2.5 text-yellow-400">PK</td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">측정 고유 ID</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">uuid</td>
+                            <td class="px-4 py-2.5">VARCHAR(50)</td>
+                            <td class="px-4 py-2.5">UQ</td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">리포트 UUID (S3 경로용)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">name</td>
+                            <td class="px-4 py-2.5">VARCHAR(100)</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">고객명</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">phone_number</td>
+                            <td class="px-4 py-2.5">VARCHAR(20)</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">연락처 (마스킹 처리)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">birth_date</td>
+                            <td class="px-4 py-2.5">DATE</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">생년월일</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">shoe_size</td>
+                            <td class="px-4 py-2.5">DECIMAL</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">신발 사이즈</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">branch_name</td>
+                            <td class="px-4 py-2.5">VARCHAR(100)</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">지점명</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">store_id</td>
+                            <td class="px-4 py-2.5">VARCHAR(50)</td>
+                            <td class="px-4 py-2.5">IDX</td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">지점 ID (로그인용)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-brand-orange font-bold">report_status</td>
+                            <td class="px-4 py-2.5">ENUM</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">pending / generating / completed / failed
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-brand-orange font-bold">s3_report_key</td>
+                            <td class="px-4 py-2.5">VARCHAR(255)</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">S3 경로 (reports/{uuid}/report.json)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">measured_at</td>
+                            <td class="px-4 py-2.5">DATETIME</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">측정 일시</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 text-blue-400">report_generated_at</td>
+                            <td class="px-4 py-2.5">DATETIME</td>
+                            <td class="px-4 py-2.5"></td>
+                            <td class="px-4 py-2.5 font-sans text-gray-400">리포트 생성 일시</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 6. N8N WORKFLOW ===== -->
+    <div id="n8n" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">10</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">n8n 워크플로우</h2>
+                <p class="text-sm text-gray-500">n8n Automation Workflow</p>
+            </div>
+        </div>
+
+        <div class="section-card rounded-3xl p-8 mb-8 overflow-x-auto">
+            <div class="mermaid">
+                graph LR
+                A["🌐 Webhook\nReceive AWS Data"] --> B["🗄️ MySQL1\n고객 데이터 조회"]
+                B --> C["🤖 Gemini AI\n족저압 분석"]
+                C --> D["⚙️ Code Node\nJSON 정제"]
+                D --> E["📦 S3 Upload\nreport.json"]
+                D --> F["🗄️ MySQL Update\nstatus=completed"]
+                E --> G["✅ 완료"]
+                F --> G
+
+                classDef webhook fill:#EA4B71,stroke:#D43A60,color:#fff
+                classDef db fill:#3B48CC,stroke:#2D38A0,color:#fff
+                classDef ai fill:#4285F4,stroke:#3574D4,color:#fff
+                classDef code fill:#F59E0B,stroke:#D68B09,color:#000
+                classDef s3 fill:#569A31,stroke:#3F7A1F,color:#fff
+                classDef done fill:#10B981,stroke:#059669,color:#fff
+
+                class A webhook
+                class B,F db
+                class C ai
+                class D code
+                class E s3
+                class G done
+            </div>
+        </div>
+
+        <div class="section-card rounded-3xl p-8">
+            <h3 class="text-lg font-bold text-white mb-6">Code 노드 핵심 로직</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                        <span class="text-xs font-bold text-green-400 uppercase">Age 계산</span>
+                    </div>
+                    <code
+                        class="text-xs text-gray-400 block leading-relaxed">birth_date에서 현재 날짜까지<br>자동 계산 (예: 1988 → 37세)</code>
+                </div>
+                <div class="glass rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span class="text-xs font-bold text-blue-400 uppercase">UUID 생성</span>
+                    </div>
+                    <code class="text-xs text-gray-400 block leading-relaxed">전체 UUID를 S3 경로 및<br>Report_ID로 사용</code>
+                </div>
+                <div class="glass rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+                        <span class="text-xs font-bold text-brand-orange uppercase">Foot_scan_raw_data</span>
+                    </div>
+                    <code
+                        class="text-xs text-gray-400 block leading-relaxed">mysqlData.measure_log를<br>JSON에 포함 (히트맵용)</code>
+                </div>
+                <div class="glass rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                        <span class="text-xs font-bold text-purple-400 uppercase">Exercises</span>
+                    </div>
+                    <code
+                        class="text-xs text-gray-400 block leading-relaxed">Gemini 응답 파싱 →<br>JSON.stringify로 변환</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 7. REPORT B ===== -->
+    <div id="reportb" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">11</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">Report B 시스템</h2>
+                <p class="text-sm text-gray-500">Report B - Independent System</p>
+            </div>
+        </div>
+
+        <div class="glass rounded-2xl p-5 mb-8 border-l-4 border-blue-500">
+            <p class="text-sm text-gray-300">
+                <strong class="text-blue-400">ℹ️ 독립 시스템:</strong>
+                Report B는 Google Apps Script + Google Sheets 기반으로 동작하며, AWS 인프라와는 완전히 독립적입니다.
+                2D 사진 기반 발 분석을 제공하며, analysis_db.js에 정의된 코드 매칭 로직을 사용합니다.
+            </p>
+        </div>
+
+        <div class="section-card rounded-3xl p-8 overflow-x-auto">
+            <div class="mermaid">
+                graph TB
+                subgraph ReportB["Report B 시스템"]
+                SPB3["🖥️ Staff Portal B\nstaff_portal_b.html"]
+                RPTB3["📊 Report B\nreport_b.html"]
+                MEASB3["🛒 Measure B\nmeasure_b.html"]
+                ADB3["💜 Analysis DB\nanalysis_db.js\n76KB 코드 매칭"]
+                end
+
+                subgraph Google["Google Cloud"]
+                GAS["⚡ Google Apps Script\n데이터 API"]
+                GS["📋 Google Sheets\n고객 데이터 저장"]
+                end
+
+                SPB3 -->|"고객 데이터 조회"| GAS
+                GAS <-->|"읽기/쓰기"| GS
+                    SPB3 -->|"리포트 열기"| RPTB3
+                    RPTB3 -->|"분석 코드 매칭"| ADB3
+                    RPTB3 -->|"세미커스텀 주문"| MEASB3
+
+                    classDef blue fill:#3B82F6,stroke:#2563EB,color:#fff
+                    classDef green fill:#10B981,stroke:#059669,color:#fff
+                    classDef purple fill:#7C3AED,stroke:#6D28D9,color:#fff
+                    classDef google fill:#0F9D58,stroke:#0A7A42,color:#fff
+
+                    class SPB3,RPTB3 blue
+                    class MEASB3 green
+                    class ADB3 purple
+                    class GAS,GS google
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 8. EXTERNAL SERVICES ===== -->
+    <div id="integrations" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">12</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">외부 연동 서비스</h2>
+                <p class="text-sm text-gray-500">External Integrations</p>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="table-styled w-full text-left rounded-2xl overflow-hidden">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3">서비스</th>
+                        <th class="px-5 py-3">용도</th>
+                        <th class="px-5 py-3">연동 방식</th>
+                        <th class="px-5 py-3">엔드포인트</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-5 py-3"><span class="badge badge-n8n">n8n Cloud</span></td>
+                        <td class="px-5 py-3 text-gray-400">리포트 생성 자동화 워크플로우</td>
+                        <td class="px-5 py-3 text-gray-400">Webhook POST</td>
+                        <td class="px-5 py-3 font-mono text-xs text-brand-orange">
+                            healsy.app.n8n.cloud/webhook/foot-pressure-analysis</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3"><span class="badge badge-gcp">Google Gemini AI</span></td>
+                        <td class="px-5 py-3 text-gray-400">족저압 데이터 AI 분석 (부상 위험도, 운동 처방)</td>
+                        <td class="px-5 py-3 text-gray-400">n8n HTTP Request</td>
+                        <td class="px-5 py-3 font-mono text-xs text-gray-500">n8n 내부 연동</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3"><span class="badge badge-kakao">KakaoTalk Bizm</span></td>
+                        <td class="px-5 py-3 text-gray-400">고객에게 리포트 링크 카카오톡 발송</td>
+                        <td class="px-5 py-3 text-gray-400">Webhook POST</td>
+                        <td class="px-5 py-3 font-mono text-xs text-brand-orange">
+                            healsy.app.n8n.cloud/webhook/bizm-sender</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3"><span class="badge"
+                                style="background:rgba(3,199,90,0.15);color:#03C75A;">Naver Smart Store</span></td>
+                        <td class="px-5 py-3 text-gray-400">커스텀 인솔 구매 페이지 (SIDAS)</td>
+                        <td class="px-5 py-3 text-gray-400">직접 링크</td>
+                        <td class="px-5 py-3 font-mono text-xs text-gray-500">smartstore.naver.com/walterwalker</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5 py-3"><span class="badge badge-gcp">Google Apps Script</span></td>
+                        <td class="px-5 py-3 text-gray-400">Report B 데이터 저장/조회 API</td>
+                        <td class="px-5 py-3 text-gray-400">HTTP GET/POST</td>
+                        <td class="px-5 py-3 font-mono text-xs text-gray-500">script.google.com/macros/...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ===== 9. DEPLOYMENT ===== -->
+    <div id="deployment" class="max-w-5xl mx-auto px-8 py-12 page-break">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="text-4xl font-black text-brand-orange/20">13</span>
+            <div>
+                <h2 class="text-2xl font-black text-white">배포 구조</h2>
+                <p class="text-sm text-gray-500">Deployment Structure</p>
+            </div>
+        </div>
+
+        <div class="section-card rounded-3xl p-8">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span class="text-brand-orange">🌐</span> healsy.com.au
+            </h3>
+            <div class="font-mono text-sm space-y-3 text-gray-400">
+                <div class="flex flex-col gap-0.5">
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-600">├──</span>
+                        <span class="text-brand-orange font-bold">staff-portal-v4.html</span>
+                        <span class="text-xs text-gray-600 ml-2">← Staff Portal (AI Custom Report)</span>
+                    </div>
+                    <div class="pl-10"><a href="https://healsy.com.au/staff-portal-v4.html" target="_blank"
+                            class="text-xs text-cyan-400 hover:underline">https://healsy.com.au/staff-portal-v4.html</a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-600">├──</span>
+                        <span class="text-brand-orange font-bold">healsy-report-v4.html</span>
+                        <span class="text-xs text-gray-600 ml-2">← AI 분석 리포트 페이지</span>
+                    </div>
+                    <div class="pl-10"><a href="https://healsy.com.au/healsy-report-v4.html" target="_blank"
+                            class="text-xs text-cyan-400 hover:underline">https://healsy.com.au/healsy-report-v4.html</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-600">└── report/</span>
+                </div>
+                <div class="flex flex-col gap-0.5 pl-8">
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-600">├──</span>
+                        <span class="text-blue-400 font-bold">report_b.html</span>
+                        <span class="text-xs text-gray-600 ml-2">← Report B 리포트</span>
+                    </div>
+                    <div class="pl-10"><a href="https://healsy.com.au/report/report_b.html" target="_blank"
+                            class="text-xs text-cyan-400 hover:underline">https://healsy.com.au/report/report_b.html</a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5 pl-8">
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-600">├──</span>
+                        <span class="text-blue-400 font-bold">staff_portal_b.html</span>
+                        <span class="text-xs text-gray-600 ml-2">← Staff Portal B</span>
+                    </div>
+                    <div class="pl-10"><a href="https://healsy.com.au/report/staff_portal_b.html" target="_blank"
+                            class="text-xs text-cyan-400 hover:underline">https://healsy.com.au/report/staff_portal_b.html</a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5 pl-8">
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-600">└──</span>
+                        <span class="text-green-400 font-bold">measure_b.html</span>
+                        <span class="text-xs text-gray-600 ml-2">← 효(孝) 에디션 주문</span>
+                    </div>
+                    <div class="pl-10"><a href="https://healsy.com.au/report/measure_b.html" target="_blank"
+                            class="text-xs text-cyan-400 hover:underline">https://healsy.com.au/report/measure_b.html</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass rounded-2xl p-5 mt-8 border-l-4 border-brand-orange">
+            <p class="text-sm text-gray-300">
+                <strong class="text-brand-orange">⚠️ 주의:</strong>
+                프로덕션 서버(openresty)는 .html 확장자 없는 URL을 지원하지 않습니다.
+                모든 링크에 <code class="text-brand-orange">.html</code> 확장자를 포함해야 합니다.
+            </p>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-white/5 py-16 text-center mt-12">
+        <div class="max-w-md mx-auto space-y-4 px-6">
+            <p class="text-3xl font-black italic text-gray-700">Healsy</p>
+            <p class="text-[10px] text-gray-700 uppercase tracking-widest">Physio & Podia Tech</p>
+            <p class="text-[10px] text-gray-800 mt-4">© 2026 Healsy · Walter Walker · Project Master Report V4</p>
+        </div>
+    </footer>
+
+    <!-- Print Button -->
+    <div class="fixed bottom-8 right-8 no-print">
+        <button onclick="window.print()"
+            class="px-6 py-3 rounded-2xl bg-gradient-to-r from-brand-orange to-orange-600 text-white font-bold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all hover:-translate-y-0.5 flex items-center gap-2 text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9" />
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <rect width="12" height="8" x="6" y="14" />
+            </svg>
+            PDF / 인쇄
+        </button>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#FF7A00',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#E06B00',
+                lineColor: '#4B5563',
+                secondaryColor: '#1E293B',
+                tertiaryColor: '#0F172A',
+                fontFamily: 'Inter, Noto Sans KR, sans-serif',
+                fontSize: '13px'
+            },
+            flowchart: { curve: 'basis', padding: 20 },
+            sequence: { actorMargin: 50, messageMargin: 40 }
+        });
+    </script>
+</body>
+
+</html>
